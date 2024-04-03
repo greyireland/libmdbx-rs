@@ -1,0 +1,49 @@
+[package]
+name = "reth-libmdbx"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74.0"
+license = "Apache-2.0"
+description = "Idiomatic and safe MDBX wrapper with good licence"
+
+#[lints]
+#workspace = true
+
+[lib]
+name = "reth_libmdbx"
+
+[dependencies]
+bitflags = "2.4"
+byteorder = "1"
+derive_more = "0.99.17"
+indexmap = "2"
+libc = "0.2"
+parking_lot = "0.12"
+thiserror = "1.0"
+dashmap = { version = "5.5.3", features = ["inline"], optional = true }
+tracing = "0.1.0"
+
+ffi = { package = "reth-mdbx-sys", path = "./mdbx-sys" }
+
+[target.'cfg(not(windows))'.dependencies]
+libffi = "3.2.0"
+
+[features]
+default = []
+return-borrowed = []
+read-tx-timeouts = ["dashmap", "dashmap/inline"]
+
+[dev-dependencies]
+pprof = { version = "0.13.0", features = ["flamegraph", "frame-pointer", "criterion"] }
+criterion = "0.5"
+rand = "0.8.5"
+rand_xorshift = "0.3"
+tempfile = "3.8"
+
+#[[bench]]
+#name = "cursor"
+#harness = false
+#
+#[[bench]]
+#name = "transaction"
+#harness = false
